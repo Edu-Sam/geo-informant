@@ -15,10 +15,11 @@ class AuthRepository{
   late SharedPreferences pref;
 
 
-  Future<dynamic> signIn(String email,String password,Preferences preferences) async{
+  Future<dynamic> signIn(String email,String password,Preferences preferences,String user_type) async{
     String auth_username='clifford';
     String auth_password='g#hxnK3GGw&5';
     String basic_auth='Basic ' +  base64Encode(utf8.encode('$auth_username:$auth_password'));
+    print("The deployed user type is " + user_type.toString());
     try{
         http.Response response=await http.post(Uri.parse(BASE_URL + 'login'),
         headers: {"Accept":"application/json","authorization": basic_auth},
@@ -33,7 +34,8 @@ class AuthRepository{
         if(response.statusCode==200){
           var result=jsonDecode(response.body);
           User user=User.fromJson(result['user']);
-          var db_result=await databaseService.deleteAccount().then((accountDeleted) async{
+          if(user_type==user.user_type){
+            var db_result=await databaseService.deleteAccount().then((accountDeleted) async{
               int? delete_user=await databaseService.deleteUser().then((userDeleted) async{
                 int? insertUser=await databaseService.insertUser(user).then((userInserted) async{
                   User? databaseUser=await databaseService.getUser();
@@ -54,7 +56,12 @@ class AuthRepository{
                 return insertUser;
               });
               return delete_user;
-          });
+            });
+          }
+
+          else{
+            return 'Authentication Error.Please try again';
+          }
           return preferences;
         }
 

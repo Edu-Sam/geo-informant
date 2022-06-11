@@ -140,10 +140,13 @@ class DetailsRepository{
 
       http.StreamedResponse userResponse=await response.send();
       final res=await userResponse.stream.bytesToString();
-      print(res);
+
+      print("The complaint submit status code is " + userResponse.statusCode.toString());
+      print("Complaint response: " + res);
 
       var result=res;
-      return result;
+      return userResponse.statusCode;
+    //  return result;
       /*var result=jsonDecode(res);
 
       if(result['response']=='1'){

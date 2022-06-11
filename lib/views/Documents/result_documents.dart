@@ -66,7 +66,9 @@ class _ResultDocumentState extends State<ResultDocuments>{
   @override
   void initState() {
     // TODO: implement initState
-    initializeDownloader();
+  //  initializeDownloader();
+    FlutterDownloader.initialize();
+   // WidgetsFlutterBinding.ensureInitialized();
     super.initState();
 
     print("The url is " + widget.url.toString());
@@ -141,184 +143,134 @@ class _ResultDocumentState extends State<ResultDocuments>{
               color: Colors.white,
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Submitted',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500,
-                              fontSize: 14),),
-                          Text(widget.complaint!.created_at.substring(0,10))
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Tenant',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500,
-                              fontSize: 14),),
-                          Text(widget.complaint!.complainee_name)
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('ID',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500,
-                              fontSize: 14),),
-                          Text(widget.complaint!.complainee_id.toString())
-
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.40,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              widget.complaint!.long_description,
-                              style: const TextStyle(
-                                  fontSize: 12,fontWeight: FontWeight.w500,
-                                  color: Colors.black54
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: const Offset(1.0,2.0),
+                                    spreadRadius: 1.0,
+                                    blurRadius: 1.0,
+                                    color: Colors.black12
+                                )
+                              ]
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Submitted',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500,
+                                        fontSize: 14),),
+                                    Text(widget.complaint!.created_at.substring(0,10))
+                                  ],
+                                ),
                               ),
-                            ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Tenant',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500,
+                                        fontSize: 14),),
+                                    Text(widget.complaint!.complainee_name)
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('ID',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500,
+                                        fontSize: 14),),
+                                    Text(widget.complaint!.complainee_id.toString())
 
-                          ],
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
-                    Padding(
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.40,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.complaint!.long_description,
+                                  style: const TextStyle(
+                                      fontSize: 14,fontWeight: FontWeight.w500,
+                                      color: Colors.black54
+                                  ),
+                                ),
 
-                        padding: EdgeInsets.symmetric(vertical: 0.0,horizontal: 20.0),
-                        child:   GestureDetector(
-                          onTap: () async{
-                            setState(() {
-                              isLoading=true;
-                            });
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+
+                            padding: EdgeInsets.symmetric(vertical: 0.0,horizontal: 20.0),
+                            child:   GestureDetector(
+                              onTap: () async{
+                                setState(() {
+                                  isLoading=true;
+                                });
 
 
-                            await _requestDownload().then((value){
-                              setState(() {
-                                isLoading=false;
-                              });
-                            });
-                            /*await _downloadFile(widget.url, widget.complaint!.file).then((value){
+                                await _requestDownload().then((value){
+                                  setState(() {
+                                    isLoading=false;
+                                  });
+                                });
+                                /*await _downloadFile(widget.url, widget.complaint!.file).then((value){
                               setState(() {
                                 isLoading=false;
                               });
                             });*/
-                            /*Navigator.push(context, MaterialPageRoute(builder: (context)
+                                /*Navigator.push(context, MaterialPageRoute(builder: (context)
                             => ApprovedDocuments(url: widget.url, complaint: widget.complaint)));*/
-                          },
-                          child:  const Text('View Document',style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),),
-                        )
+                              },
+                              child:  const Text('View Document',style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400
+                              ),),
+                            )
+                        ),
+
+
+                      ],
                     ),
-                    /*Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.60,
-                  child: FutureBuilder<void>(
-                    future: future_path,
-                    builder: (context,snapshot){
-                      if(snapshot.connectionState==ConnectionState.done){
-                        //PDFDocument document=snapshot.data!;
-                        /* return Container();*/
-                        return Stack(
-                          children: <Widget>[
-                            PDFView(
-                              filePath: path,
-                              enableSwipe: true,
-                              swipeHorizontal: true,
-                              autoSpacing: false,
-                              pageFling: true,
-                              pageSnap: true,
-                              defaultPage: currentPage!,
-                              fitPolicy: FitPolicy.BOTH,
-                              preventLinkNavigation:
-                              false, // if set to true the link is handled in flutter
-                              onRender: (_pages) {
-                                setState(() {
-                                  pages = _pages;
-                                  isReady = true;
-                                });
-                              },
-                              onError: (error) {
-                                setState(() {
-                                  errorMessage = error.toString();
-                                });
-                                print(error.toString());
-                              },
-                              onPageError: (page, error) {
-                                setState(() {
-                                  errorMessage = '$page: ${error.toString()}';
-                                });
-                                print('$page: ${error.toString()}');
-                              },
-                              onViewCreated: (PDFViewController pdfViewController) {
-                                _controller.complete(pdfViewController);
-                              },
-                              onLinkHandler: (String? uri) {
-                                print('goto uri: $uri');
-                              },
-                              onPageChanged: (int? page, int? total) {
-                                //    print('page change: $page/$total');
-                                setState(() {
-                                  currentPage = page;
-                                });
-                              },
-                            ),
-
-                          ],
-                        );
-                        /*return Container(
-                 width: MediaQuery.of(context).size.width,
-                 height: MediaQuery.of(context).size.height,
-                 color: Colors.white,
-                 child: PDFViewer(
-                   document: document,
-                   zoomSteps: 8,
-                   maxScale: 3.0,
-                   minScale: 2.0,
-                   enableSwipeNavigation: true,
-                   panLimit: 30,
-                 ),
-               );*/
-
-                      }
-
-                      else if(snapshot.hasError){
-                        print('error: ' + snapshot.error.toString());
-                        return Container();
-                      }
-
-                      else{
-                        return Center(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(AppConstants.thirdColor),
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ),*/
-
 
                     Container(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height * 0.10,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: const Offset(1.0,2.0),
+                                  spreadRadius: 1.0,
+                                  blurRadius: 1.0,
+                                  color: Colors.black12
+                              )
+                            ]
+                        ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: 20.0,horizontal: 20.0
@@ -335,9 +287,34 @@ class _ResultDocumentState extends State<ResultDocuments>{
                             ],
                           ),
                         )
-                    )
+                    ),
+                    widget.complaint!.status=='declined' ?
+                    Container(
+                        width: MediaQuery.of(context).size.width,
+                        //   height: MediaQuery.of(context).size.height * 0.10,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 20.0,horizontal: 20.0
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(widget.complaint!.decline_reason!,style: const TextStyle(color: Colors.grey,fontWeight: FontWeight.w500,
+                                      fontSize: 14),),
+                                  Text(widget.complaint!.status_update_date,)
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                    ):Container()
                   ],
-                ),
+                )
               )
           ),
           /* floatingActionButton: FutureBuilder<PDFViewController>(
@@ -459,10 +436,10 @@ class _ResultDocumentState extends State<ResultDocuments>{
 
 
     String? id = await FlutterDownloader.enqueue(
-      url: 'https://www.orimi.com/pdf-test.pdf'
+    //  url: 'https://www.orimi.com/pdf-test.pdf'
       //url: 'https:be-express.org/beexpress/images/image_picker1109783911598712200.jpg',
    //   url: 'https:be-express.org/beexpress/images/passport.pdf',
-     // url: widget.url,
+      url: widget.url,
     //  headers: {"auth": "test_for_sql_encoding"},
       headers: {/*"Accept":"application/json",*/"authorization": basic_auth},
       savedDir: await ExternalPath.getExternalStoragePublicDirectory(

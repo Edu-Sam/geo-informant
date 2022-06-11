@@ -23,6 +23,16 @@ class Validation{
     }
   }
 
+  String? wordsValidator(String value,BuildContext context){
+    if(value.isEmpty){
+      return 'Field is Required';
+    }
+
+    else{
+      return null;
+    }
+  }
+
   String? nameValidator(String value,BuildContext context){
     //setWords(context);
     String value1=value.trimRight();
@@ -31,8 +41,7 @@ class Validation{
       Pattern digit="0-9";
       Pattern special="(?=.*?[!@#\$&*~])";
       String pattern=r'[!@#<>?":_`~;[\]\\|=+)(*&^%\s-.,/%]$';
-      //   Pattern pattern= r'^(?=.*?[a-zA-Z]).{5,}[^0-9](?=.*?[^!@#\$&*~.])';
-      //Alternative to the above pattern is to dissallow /s which matches the whitespace character
+
 
 
       RegExp regex=RegExp(pattern);

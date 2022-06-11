@@ -293,9 +293,12 @@ class SignInState extends State<SignIn>{
                                       error_message='';
                                     });
 
+                                    print('The user_type is ' + types.elementAt(current_value!).toLowerCase());
+
                                     var result=await authRepository.signIn(email_controller.text/*'lansre@example.com'*/,
                                     /*'theadmin'*/password_controller.text,
-                                        Provider.of<Preferences>(context,listen: false));
+                                        Provider.of<Preferences>(context,listen: false),types.elementAt(current_value!)
+                                    .toLowerCase());
                                     print("email is " + email_controller.text + ':' + password_controller.text);
                                     if(result is Preferences && result.user!.user_type=='landlord' && current_value==0){
                                       setState(() {
@@ -314,7 +317,7 @@ class SignInState extends State<SignIn>{
                                       ), (route) => false/* ModalRoute.withName('/')*/);
                                     }
 
-                                    else if(result is Preferences && result.user!.user_type=='Tenant' && current_value==1){
+                                    else if(result is Preferences && result.user!.user_type=='tenant' && current_value==1){
                                       setState(() {
                                         isLoading=false;
                                       });
@@ -409,8 +412,8 @@ class SignInState extends State<SignIn>{
     );
   }
 
-  Future<dynamic> signIn(String email,String password,Preferences preferences) async{
-    var result=await authRepository.signIn(email, password,preferences);
+  Future<dynamic> signIn(String email,String password,Preferences preferences,String user_type) async{
+    var result=await authRepository.signIn(email, password,preferences,user_type);
     return result;
   }
 

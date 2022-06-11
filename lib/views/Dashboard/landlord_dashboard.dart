@@ -103,8 +103,8 @@ class LandlordDashboardState extends State<LandlordDashboard>{
                               GestureDetector(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                                      SubmittedReport(submitted_complaint: complaints.where((element) => element.status=='pending')
-                                        .toList(),),settings:const RouteSettings(
+                                      SubmittedReport(submitted_complaint: complaints/*complaints.where((element) => element.status=='pending')
+                                        .toList()*/,),settings:const RouteSettings(
                                       name: '/submittedreport'
                                   )));
                                 },

@@ -287,7 +287,8 @@ class SubmitComplaintState extends State<SubmitComplaint>{
                                           child: TextFormField(
                                             controller: incident_details_controller,
                                             validator: (text){
-                                              return validation.nameValidator(text ?? '', context);
+                                            //  return validation.nameValidator(text ?? '', context);
+                                              return validation.wordsValidator(text ?? '', context);
                                             },
                                             maxLines: 6,
                                             minLines: 6,
@@ -378,8 +379,17 @@ class SubmitComplaintState extends State<SubmitComplaint>{
                               onTap: (){
                                 getFile1();
                               },
-                              child: Text('Upload PDF/Image',style: TextStyle(color: Colors.grey,
-                                fontSize: 14,),),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Upload PDF/Image',style: TextStyle(color: Colors.grey,
+                                    fontSize: 14,),),
+                                  Icon(
+                                    Icons.upload_file,
+                                    color: Colors.black,
+                                  )
+                                ],
+                              )
                             )
                         ),
                       ),
@@ -401,8 +411,23 @@ class SubmitComplaintState extends State<SubmitComplaint>{
                                   setState(() {
                                     isLoading=false;
                                   });
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  if(value is int){
+                                    if(value==200){
+
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    }
+
+                                    else{
+                                     // Navigator.pop(context);
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar1);
+                                    }
+                                  }
+
+                                  else{
+                                    print("Value is not int");
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBar1);
+                                  }
                                 });
                               }
 
