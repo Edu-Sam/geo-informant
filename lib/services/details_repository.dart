@@ -164,6 +164,72 @@ class DetailsRepository{
       return false;
     }
   }
+
+  Future<dynamic> getOTP(String email,String user_type) async{
+    String auth_username='clifford';
+    String auth_password='g#hxnK3GGw&5';
+    String basic_auth='Basic ' +  base64Encode(utf8.encode('$auth_username:$auth_password'));
+    try{
+      http.Response response=await http.post(Uri.parse(BASE_URL + 'renew_password_email'),
+      headers: {"Accept":"application/json","authorization": basic_auth},
+      body: {
+        'email':email,
+        'user_type':user_type});
+
+      print('The response is  '+ response.body.toString());
+      print("the statuis coide is " + response.statusCode.toString());
+      return response.statusCode;
+    }
+    catch(Exception,stacktrace){
+      print("ERROR: " + stacktrace.toString());
+      return 500;
+    }
+  }
+
+  Future<dynamic> verifyOTP(String otp,String email,String user_type) async{
+    String auth_username='clifford';
+    String auth_password='g#hxnK3GGw&5';
+    String basic_auth='Basic ' +  base64Encode(utf8.encode('$auth_username:$auth_password'));
+    try{
+      http.Response response=await http.post(Uri.parse(BASE_URL + 'renew_password_otp_verify'),
+      headers: {"Accept":"application/json","authorization": basic_auth},
+      body: {
+        'otp':otp.toString(),
+        'email':email.toString(),
+        'user_type':user_type.toString()
+      });
+
+      return response.statusCode;
+    }
+
+    catch(Exception,stacktrace){
+      print("error: "+ stacktrace.toString());
+      return 500;
+    }
+  }
+
+  Future<dynamic> changePassword(String email,String password,String user_type) async{
+    String auth_username='clifford';
+    String auth_password='g#hxnK3GGw&5';
+    String basic_auth='Basic ' +  base64Encode(utf8.encode('$auth_username:$auth_password'));
+    try{
+      http.Response response=await http.post(Uri.parse(BASE_URL + 'renew_password'),
+      headers: {"Accept":"application/json","authorization": basic_auth},
+      body: {
+        'email':email,
+        'password':password,
+        'user_type':user_type
+      });
+
+      print("Response change pass is " + response.body.toString());
+      print("Status code is " + response.statusCode.toString());
+      return response.statusCode;
+    }
+    catch(Exception,stacktrace){
+      print("Error: " + stacktrace.toString());
+      return 500;
+    }
+  }
   
 
 }

@@ -27,6 +27,7 @@ class SignInState extends State<SignIn>{
   GlobalKey<FormState> form_key=GlobalKey<FormState>();
   Validation validation=Validation();
   String error_message='';
+  bool isForgotPassword=false;
   List<String> types=['Landlord','Tenant'];
 
   @override
@@ -49,188 +50,205 @@ class SignInState extends State<SignIn>{
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             color: AppConstants.primaryColor,
-            child: Form(
-              key: form_key,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 20.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.80,
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 5.0),
-                              child: Text("Login",style: TextStyle(
-                                  color: AppConstants.primaryColor,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w800
-                              ),),
-                            ),
-
-                            Padding(
-                              padding:const  EdgeInsets.only(top: 0.0),
-                              child: Card(
-                                elevation: 0,
-                                color: Colors.transparent,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10.0,bottom: 5.0),
-                                      child: Text("Email",style: TextStyle(
-                                          color: AppConstants.primaryColor,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600
-                                      ),),
-                                    ),
-                                    Padding(
-                                        padding: const EdgeInsets.only(bottom: 5.0),
-                                        child: Container(
-                                          width: MediaQuery.of(context).size.width,
-                                          height: 48,
-                                          child: TextFormField(
-                                            controller: email_controller,
-                                            decoration:  InputDecoration(
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                              hintText: 'Email',
-                                              hintStyle: const TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 14,fontWeight: FontWeight.w500
-                                              ),
-                                              border: OutlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.grey.shade300),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.grey.shade300),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                    )
-                                  ],
-                                ),
+            child: SingleChildScrollView(
+              child: Form(
+                key: form_key,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 20.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.80,
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 5.0),
+                                child: Text("Login",style: TextStyle(
+                                    color: AppConstants.primaryColor,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w800
+                                ),),
                               ),
-                            ),
 
-                            Padding(
-                              padding:const  EdgeInsets.only(top: 0.0),
-                              child: Card(
-                                elevation: 0,
-                                color: Colors.transparent,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10.0,bottom: 5.0),
-                                      child: Text("Password",style: TextStyle(
-                                          color: AppConstants.primaryColor,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600
-                                      ),),
-                                    ),
-                                    Padding(
-                                        padding: const EdgeInsets.only(bottom: 5.0),
-                                        child: Container(
-                                          width: MediaQuery.of(context).size.width,
-                                          height: 48,
-                                          child: TextFormField(
-                                            controller: password_controller,
-                                            obscureText: true,
-                                            decoration:  InputDecoration(
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                              hintText: 'Enter Password',
-                                              hintStyle: const TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 14,fontWeight: FontWeight.w500
-                                              ),
-                                              border: OutlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.grey.shade300),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.grey.shade300),
+                              Padding(
+                                padding:const  EdgeInsets.only(top: 0.0),
+                                child: Card(
+                                  elevation: 0,
+                                  color: Colors.transparent,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10.0,bottom: 5.0),
+                                        child: Text("Email",style: TextStyle(
+                                            color: AppConstants.primaryColor,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600
+                                        ),),
+                                      ),
+                                      Padding(
+                                          padding: const EdgeInsets.only(bottom: 5.0),
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width,
+                                            height: 48,
+                                            child: TextFormField(
+                                              controller: email_controller,
+                                              decoration:  InputDecoration(
+                                                filled: true,
+                                                fillColor: Colors.white,
+                                                hintText: 'Email',
+                                                hintStyle: const TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 14,fontWeight: FontWeight.w500
+                                                ),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(color: isForgotPassword ?
+                                                  Colors.redAccent : Colors.grey.shade300),
+                                                ),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(color: isForgotPassword ?
+                                                  Colors.redAccent : Colors.grey.shade300),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        )
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                            Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
-                                child: Align(
-                                    alignment: Alignment.topRight,
-                                    child: GestureDetector(
-                                      onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                                            ForgotPassword()));
-                                      },
-                                      child: const Text("Forgot your password?",style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 14,fontWeight: FontWeight.w400
-                                      ),),
-                                    )
-                                )
-                            ),
-                            Container(
-                                color: Colors.white,
-                                height: 60,
-                                child: FormField(
-                                    builder: (FormFieldState state){
-                                      return InputDecorator(
-
-                                          decoration:  InputDecoration(
-                                            contentPadding: EdgeInsets.all(5.0),
-                                            //     labelStyle: textStyle,
-                                            errorStyle: const TextStyle(color: Colors.redAccent,fontSize: 16.0),
-                                            hintStyle: const TextStyle(color: Colors.grey,fontSize: 14,fontWeight: FontWeight.w500),
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(color: Colors.grey.shade300),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(color: Colors.grey.shade300),
-                                            ),
-                                            // labelText:'Select Bank',
-                                          ),
-                                          child:DropdownButtonHideUnderline(
-                                              child:DropdownButton(
-                                                value: current_value,
-                                                isDense: true,
-                                                hint: const Text("Sign In As",style: TextStyle(color: Colors.lightBlueAccent,
-                                                    fontSize: 10),),
-
-                                                onChanged: (int? newValue){
-                                                  //                setState((){
-                                                  current_value=newValue;
-                                                  state.didChange(newValue);
-                                                  //               });
-                                                },
-                                                icon: null,
-                                                //  icon: const Icon(Icons.keyboard_arrow_down),
-                                                items:types.map((value){
-                                                  return DropdownMenuItem(
-                                                    value: types.indexOf(value),
-                                                    child:Text(value),
-                                                  );
-                                                }).toList(),
-                                              )
                                           )
-                                      );
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
 
-                                    }
-                                )
-                            ),
-                           /* Padding(
+                              Padding(
+                                padding:const  EdgeInsets.only(top: 0.0),
+                                child: Card(
+                                  elevation: 0,
+                                  color: Colors.transparent,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10.0,bottom: 5.0),
+                                        child: Text("Password",style: TextStyle(
+                                            color: AppConstants.primaryColor,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600
+                                        ),),
+                                      ),
+                                      Padding(
+                                          padding: const EdgeInsets.only(bottom: 5.0),
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width,
+                                            height: 48,
+                                            child: TextFormField(
+                                              controller: password_controller,
+                                              obscureText: true,
+                                              decoration:  InputDecoration(
+                                                filled: true,
+                                                fillColor: Colors.white,
+                                                hintText: 'Enter Password',
+                                                hintStyle: const TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 14,fontWeight: FontWeight.w500
+                                                ),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(color: Colors.grey.shade300),
+                                                ),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(color: Colors.grey.shade300),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                                  child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          /*if(email_controller.text.isEmpty){
+                                          setState(() {
+                                            isForgotPassword=true;
+                                            error_message='Please enter email for password verification';
+                                          });
+                                        }
+
+                                        else{
+                                          isForgotPassword=false;
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                              ForgotPassword(),settings: RouteSettings(
+                                            name: '/forgotpassword'
+                                          )));
+                                        }*/
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                              ForgotPassword()));
+                                        },
+                                        child: const Text("Forgot your password?",style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 14,fontWeight: FontWeight.w400
+                                        ),),
+                                      )
+                                  )
+                              ),
+                              Container(
+                                  color: Colors.white,
+                                  height: 60,
+                                  child: FormField(
+                                      builder: (FormFieldState state){
+                                        return InputDecorator(
+
+                                            decoration:  InputDecoration(
+                                              contentPadding: EdgeInsets.all(5.0),
+                                              //     labelStyle: textStyle,
+                                              errorStyle: const TextStyle(color: Colors.redAccent,fontSize: 16.0),
+                                              hintStyle: const TextStyle(color: Colors.grey,fontSize: 14,fontWeight: FontWeight.w500),
+                                              border: OutlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.grey.shade300),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.grey.shade300),
+                                              ),
+                                              // labelText:'Select Bank',
+                                            ),
+                                            child:DropdownButtonHideUnderline(
+                                                child:DropdownButton(
+                                                  value: current_value,
+                                                  isDense: true,
+                                                  hint: const Text("Sign In As",style: TextStyle(color: Colors.lightBlueAccent,
+                                                      fontSize: 10),),
+
+                                                  onChanged: (int? newValue){
+                                                    //                setState((){
+                                                    current_value=newValue;
+                                                    state.didChange(newValue);
+                                                    //               });
+                                                  },
+                                                  icon: null,
+                                                  //  icon: const Icon(Icons.keyboard_arrow_down),
+                                                  items:types.map((value){
+                                                    return DropdownMenuItem(
+                                                      value: types.indexOf(value),
+                                                      child:Text(value),
+                                                    );
+                                                  }).toList(),
+                                                )
+                                            )
+                                        );
+
+                                      }
+                                  )
+                              ),
+                              /* Padding(
                               padding: const EdgeInsets.only(top: 40.0,bottom: 10.0,left: 10.0,right: 10.0),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
@@ -281,118 +299,119 @@ class SignInState extends State<SignIn>{
                                 ),
                               ),
                             ),*/
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 48,
-                                child: TextButton(
-                                  onPressed: () async{
-                                    setState(() {
-                                      isLoading=true;
-                                      error_message='';
-                                    });
-
-                                    print('The user_type is ' + types.elementAt(current_value!).toLowerCase());
-
-                                    var result=await authRepository.signIn(email_controller.text/*'lansre@example.com'*/,
-                                    /*'theadmin'*/password_controller.text,
-                                        Provider.of<Preferences>(context,listen: false),types.elementAt(current_value!)
-                                    .toLowerCase());
-                                    print("email is " + email_controller.text + ':' + password_controller.text);
-                                    if(result is Preferences && result.user!.user_type=='landlord' && current_value==0){
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 48,
+                                  child: TextButton(
+                                    onPressed: () async{
                                       setState(() {
-                                        isLoading=false;
+                                        isLoading=true;
+                                        error_message='';
                                       });
 
-                                      createLandlordProfile(result);
-                                      //Provider.of<Preferences>(context,listen: false).user=result.user;
-                                     /* Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                      print('The user_type is ' + types.elementAt(current_value!).toLowerCase());
+
+                                      var result=await authRepository.signIn(email_controller.text/*'lansre@example.com'*/,
+                                          /*'theadmin'*/password_controller.text,
+                                          Provider.of<Preferences>(context,listen: false),types.elementAt(current_value!)
+                                              .toLowerCase());
+                                      print("email is " + email_controller.text + ':' + password_controller.text);
+                                      if(result is Preferences && result.user!.user_type=='landlord' && current_value==0){
+                                        setState(() {
+                                          isLoading=false;
+                                        });
+
+                                        createLandlordProfile(result);
+                                        //Provider.of<Preferences>(context,listen: false).user=result.user;
+                                        /* Navigator.push(context, MaterialPageRoute(builder: (context)=>
                                           LandlordDashboard(),settings: const RouteSettings(
                                           name: '/landlord'
                                       )));*/
-                                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-                                          builder: (context)=> LandlordDashboard(),
-                                          settings: const RouteSettings(name: '/landlord')
-                                      ), (route) => false/* ModalRoute.withName('/')*/);
-                                    }
+                                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                                            builder: (context)=> LandlordDashboard(),
+                                            settings: const RouteSettings(name: '/landlord')
+                                        ), (route) => false/* ModalRoute.withName('/')*/);
+                                      }
 
-                                    else if(result is Preferences && result.user!.user_type=='tenant' && current_value==1){
-                                      setState(() {
-                                        isLoading=false;
-                                      });
+                                      else if(result is Preferences && result.user!.user_type=='tenant' && current_value==1){
+                                        setState(() {
+                                          isLoading=false;
+                                        });
 
-                                      createTenantProfile(result);
-                                      //createLandlordProfile(result);
-                                      //Provider.of<Preferences>(context,listen: false).user=result.user;
-                                      /* Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                        createTenantProfile(result);
+                                        //createLandlordProfile(result);
+                                        //Provider.of<Preferences>(context,listen: false).user=result.user;
+                                        /* Navigator.push(context, MaterialPageRoute(builder: (context)=>
                                           LandlordDashboard(),settings: const RouteSettings(
                                           name: '/landlord'
                                       )));*/
-                                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-                                          builder: (context)=> TenantDashboard(),
-                                          settings: const RouteSettings(name: '/tenantdashboard')
-                                      ), (route) => false/* ModalRoute.withName('/')*/);
-                                      /*setState(() {
+                                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                                            builder: (context)=> TenantDashboard(),
+                                            settings: const RouteSettings(name: '/tenantdashboard')
+                                        ), (route) => false/* ModalRoute.withName('/')*/);
+                                        /*setState(() {
                                         isLoading=false;
                                         error_message='Unable to Sign in landlord';
                                       });
                                       print("Error Occured");*/
-                                    }
+                                      }
 
-                                    else{
-                                    setState(() {
-                                      isLoading=false;
-                                      error_message='Authentication error.Please try again';
-                                    });
-
-
-                                    }
+                                      else{
+                                        setState(() {
+                                          isLoading=false;
+                                          error_message='Authentication error.Please try again';
+                                        });
 
 
+                                      }
 
 
-                                  },
-                                  child: const Text("LOGIN",style: TextStyle(color: Colors.white,
-                                    fontSize: 14,),),
-                                  style: TextButton.styleFrom(
-                                      backgroundColor: AppConstants.primaryColor
+
+
+                                    },
+                                    child: const Text("LOGIN",style: TextStyle(color: Colors.white,
+                                      fontSize: 14,),),
+                                    style: TextButton.styleFrom(
+                                        backgroundColor: AppConstants.primaryColor
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            error_message.isNotEmpty ?
-                            Padding(
-                              padding: EdgeInsets.only(top: 10.0,left: 20.0,right: 20.0),
-                              child: Text(
-                                error_message,style: TextStyle(color: Colors.red,
-                              fontSize: 12,fontWeight: FontWeight.w600),
+                              error_message.isNotEmpty ?
+                              Padding(
+                                padding: EdgeInsets.only(top: 10.0,left: 20.0,right: 20.0),
+                                child: Text(
+                                  error_message,style: TextStyle(color: Colors.red,
+                                    fontSize: 12,fontWeight: FontWeight.w600),
+                                ),
+                              ):Container(),
+                              Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                                  child: Align(
+                                      alignment: Alignment.center,
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)
+                                          => SignUp(),settings: const RouteSettings(
+                                              name: '/signup'
+                                          )));
+                                        },
+                                        child: const Text("Dont have an account?Signup",style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 14,fontWeight: FontWeight.w400
+                                        ),),
+                                      )
+                                  )
                               ),
-                            ):Container(),
-                            Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
-                                child: Align(
-                                    alignment: Alignment.center,
-                                    child: GestureDetector(
-                                      onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)
-                                        => SignUp(),settings: const RouteSettings(
-                                            name: '/signup'
-                                        )));
-                                      },
-                                      child: const Text("You dont have an account?Signup",style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 14,fontWeight: FontWeight.w400
-                                      ),),
-                                    )
-                                )
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             )
           ),
@@ -431,4 +450,6 @@ class SignInState extends State<SignIn>{
     Provider.of<Preferences>(context,listen: false).user=preferences.user;
     Provider.of<Preferences>(context,listen: false).user_id=preferences.user_id;
   }
+
+
 }

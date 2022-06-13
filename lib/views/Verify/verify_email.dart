@@ -136,7 +136,7 @@ class VerifyEmailState extends State<VerifyEmail>{
                                 var result=await verifyEmail(widget.email/*'edungugi20@gmail.com'*/, verify_controller.text);
                                 if(result is Preferences){
                                   updateProvider(result);
-                                  if(result.user!.user_type=='Landlord'){
+                                  if(result.user!.user_type=='landlord'){
                                     setState(() {
                                       isLoading=false;
                                     });
@@ -146,7 +146,7 @@ class VerifyEmailState extends State<VerifyEmail>{
                                     ), (route) => false/* ModalRoute.withName('/')*/);
                                   }
 
-                                  else if(result.user!.user_type=='Tenant'){
+                                  else if(result.user!.user_type=='tenant'){
                                     setState(() {
                                       isLoading=false;
                                     });

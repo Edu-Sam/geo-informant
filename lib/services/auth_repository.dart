@@ -91,6 +91,7 @@ class AuthRepository{
             'email2':user.email,
             'user_type2':user.user_type.toString(),
             'password2':user.password,
+            'phone2':user.mobile,
             'password2_confirmation': user.password,
             'api':'5'
           //  'mobile':user.mobile
@@ -123,6 +124,7 @@ class AuthRepository{
     String auth_username='clifford';
     String auth_password='g#hxnK3GGw&5';
     String basic_auth='Basic ' +  base64Encode(utf8.encode('$auth_username:$auth_password'));
+    print('otp is ' + otp.toString() + ': email is ' + email.toString());
     try{
         http.Response response=await http.post(Uri.parse(BASE_URL + 'otp_verify'),
           headers: {"Accept":"application/json","authorization": basic_auth},
@@ -131,6 +133,7 @@ class AuthRepository{
           'email':email.toString()});
 
         print('otp response is ' + response.body.toString());
+        print('otp status code is ' + response.statusCode.toString());
         if(response.statusCode==200){
           var result=jsonDecode(response.body);
           User user=User.fromJson(result['user']);
@@ -141,13 +144,13 @@ class AuthRepository{
                 if(databaseUser is User){
                   preferences.isLoggedIn=true;
                   preferences.user=databaseUser;
-                  preferences.user_state='LOGGED_IN';
+                  preferences.user_state= databaseUser.user_type=='landlord' ? 'LOGGED_IN': 'LOGGED_TENANT';
                   preferences.token=result['token'];
                   preferences.user_id=databaseUser.user_id;
                   print("User token is " + preferences.token.toString());
 
                   int insertPreferences=await databaseService.insertPreference(preferences);
-                  setSignUpPreferences('LOGGED_IN');
+                  setSignUpPreferences(databaseUser.user_type=='landlord' ? 'LOGGED_IN' : 'LOGGED_TENANT');
                   return insertPreferences;
                 }
               });

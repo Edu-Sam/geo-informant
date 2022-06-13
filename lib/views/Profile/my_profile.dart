@@ -133,7 +133,7 @@ class MyProfileState extends State<MyProfile>{
                                 child: Text('Mobile No.',style: TextStyle(color: Colors.grey.shade400,fontSize: 16,
                                     fontWeight: FontWeight.w500,fontFamily: GoogleFonts.roboto().fontFamily),),
                               ),
-                              Text('0708190920'/*Provider.of<Preferences>(context,listen: false).user!.mobile.toString()*/,style: TextStyle(color: Colors.grey.shade600,fontSize: 18,
+                              Text(Provider.of<Preferences>(context,listen: false).user!.mobile.toString(),style: TextStyle(color: Colors.grey.shade600,fontSize: 18,
                                   fontWeight: FontWeight.w500,fontFamily: GoogleFonts.roboto().fontFamily),),
 
                             ],

@@ -15,3 +15,5 @@ export 'Dashboard/landlord_status.dart';
 export 'Verify/verify_email.dart';
 export 'Documents/result_documents.dart';
 export 'SignIn/sign_in.dart';
+export 'Password/change_password.dart';
+export 'Password/password_otp.dart';

@@ -28,6 +28,7 @@ class User{
     return User(
       user_id: parsedJson['id'],
       name: parsedJson['name'],
+      mobile: parsedJson['phone'],
       email: parsedJson['email'],
       user_type: parsedJson['user_type'],
       role_id: parsedJson['role_id'],

@@ -55,7 +55,9 @@ class MyApp extends StatelessWidget {
         '/landlordcheckstatus':(BuildContext context) => LandlordCheckStatus(),
         '/landlordstatus':(BuildContext context) => LandlordStatus(isClear: false, national_id: '', reports: 0),
         '/verifyemail':(BuildContext context) => VerifyEmail(email: '',),
-        '/resultdocument':(BuildContext context) => ResultDocuments(url: '', complaint: null)
+        '/resultdocument':(BuildContext context) => ResultDocuments(url: '', complaint: null),
+        '/changepassword':(BuildContext context) => ChangePassword(email: '',),
+        '/passwordotp':(BuildContext context) => PasswordOTP(email: '')
       },
       title: 'Flutter Demo',
       theme: appTheme,

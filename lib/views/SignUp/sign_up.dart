@@ -4,6 +4,8 @@ import '../../constants/module.dart';
 import 'package:flutter/cupertino.dart';
 import '../module.dart';
 import '../../models/module.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:core';
 
 class SignUp extends StatefulWidget{
   SignUp({Key? key}):super(key: key);
@@ -26,6 +28,7 @@ class SignUpState extends State<SignUp>{
   GlobalKey<FormState> form_key=GlobalKey<FormState>();
   bool isLoading=false;
   String error_message='';
+  bool? is_terms=false;
 
   @override
   void initState() {
@@ -340,37 +343,63 @@ class SignUpState extends State<SignUp>{
                                                     }
                                                 )
                                             ),
-                                            /* Padding(
-                                padding: const EdgeInsets.only(bottom: 5.0),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 48,
-                                  child: TextFormField(
-                                    controller: username_controller,
-                                    obscureText: true,
-                                    decoration:  InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      hintText: 'TENANT',
-                                      hintStyle: const TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 14,fontWeight: FontWeight.w500
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.grey.shade300),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.grey.shade300),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              )*/
+
                                           ],
                                         ),
                                       ),
                                     ),
+                                    error_message.isNotEmpty ?
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5.0,left: 20.0),
+                                      child: Text(error_message,style: const TextStyle(
+                                          color: Colors.red,fontSize: 12,
+                                          fontWeight: FontWeight.bold
+                                      ),),
+                                    ):Container(),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 2.0,horizontal: 0.0),
+                                      child: Row(
+                                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Checkbox(
+                                            value: is_terms,
+                                            onChanged: (value){
+                                              setState(() {
+                                                is_terms=value;
+                                              });
+                                            },
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text("I agree to the ",style: TextStyle(color: Colors.black54,fontSize: 15,
+                                                  fontWeight: FontWeight.w400),),
+                                              GestureDetector(
+                                                onTap: () async{
+                                                  const url = 'https://php74.clifford.co.ke/geoinformant/public/details/terms';
+                                                  if (await canLaunchUrl(Uri.parse(url))) {
+                                                    /*await launchUrl(Uri(path: url,
+                                                      query: encodeQueryParameters(<String, String>{
+                                                        'subject': 'Example Subject & Symbols are allowed!'
+                                                      }),
+                                                    ));*/
+                                                    await launchUrl(Uri.parse(url));
+                                                  } else {
+                                                   setState(() {
+                                                     error_message='Network error:'
+                                                         'Please check your internet connection!';
+                                                   });
+                                                    // throw 'Could not launch $url';
+                                                  }
+                                                },
+                                                child: Text("Terms of Service",style: TextStyle(color: AppConstants.primaryColor,fontSize: 15,
+                                                    fontWeight: FontWeight.w500),),
+                                              )
+                                            ],
+                                          )
 
+                                        ],
+                                      ),
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
                                       child: Container(
@@ -384,7 +413,7 @@ class SignUpState extends State<SignUp>{
                                             ,settings: const RouteSettings(
                                               name: '/verifyemail'
                                             )),);*/
-                                            if(form_key.currentState!.validate()){
+                                            if(form_key.currentState!.validate() && is_terms!){
                                                setState(() {
                                                  isLoading=true;
                                                });
@@ -426,6 +455,12 @@ class SignUpState extends State<SignUp>{
                                                 }
                                               });
                                             }
+
+                                            else if(is_terms==null || is_terms==false){
+                                              setState(() {
+                                                error_message='Please accept the terms of service';
+                                              });
+                                            }
                                           },
                                           child: const Text("NEXT",style: TextStyle(color: Colors.white,
                                             fontSize: 14,),),
@@ -435,14 +470,7 @@ class SignUpState extends State<SignUp>{
                                         ),
                                       ),
                                     ),
-                                    error_message.isNotEmpty ?
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5.0,left: 20.0),
-                                      child: Text(error_message,style: const TextStyle(
-                                        color: Colors.red,fontSize: 12,
-                                        fontWeight: FontWeight.bold
-                                      ),),
-                                    ):Container(),
+
                                     Padding(
                                         padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: AppConstants.horizontal_margin),
                                         child: Align(
@@ -496,7 +524,7 @@ class SignUpState extends State<SignUp>{
     String password=password_controller.text;
     String type=types.elementAt(current_value??0);
 
-    User user=User(name: username,email: email,user_type: type,password: password);
+    User user=User(name: username,email: email,user_type: type,password: password,mobile: mobile);
 
 
     var result=await authRepository.signup(user);
